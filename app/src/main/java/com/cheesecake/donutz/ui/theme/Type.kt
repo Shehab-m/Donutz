@@ -44,6 +44,17 @@ val Typography = Typography(
         fontSize = 20.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
-    )
+    ) ,
+    labelMedium = TextStyle(
+        fontFamily =FontFamily(Font(R.font.inter_regular)),
+        fontWeight = FontWeight(500),
+        fontSize = 22.sp,
+        letterSpacing = 0.5.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily =FontFamily(Font(R.font.inter_regular)),
+        fontWeight = FontWeight(500),
+        fontSize = 32.sp,
+    ),
 
 )

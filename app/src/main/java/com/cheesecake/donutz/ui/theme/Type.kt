@@ -15,46 +15,49 @@ val Typography = Typography(
         fontWeight = FontWeight(500),
         fontSize = 18.sp,
         lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
     ),
     bodySmall = TextStyle(
         fontFamily = FontFamily(Font(R.font.inter_regular)),
         fontWeight = FontWeight(400),
         fontSize = 14.sp,
-        lineHeight = 18.sp,
-        letterSpacing = 0.7.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = FontFamily(Font(R.font.inter_semibold)),
+        fontWeight = FontWeight(500),
+        fontSize = 16.sp,
     ),
     titleLarge = TextStyle(
         fontFamily = FontFamily(Font(R.font.inter_regular)),
         fontWeight = FontWeight(700),
         fontSize = 54.sp,
         lineHeight = 64.sp,
-        letterSpacing = 0.5.sp
     ),
     titleMedium = TextStyle(
         fontFamily = FontFamily(Font(R.font.inter_regular)),
         fontWeight = FontWeight(600),
         fontSize = 30.sp,
         lineHeight = 44.sp,
-        letterSpacing = 0.5.sp
     ),
     titleSmall = TextStyle(
         fontFamily =FontFamily(Font(R.font.inter_regular)),
         fontWeight = FontWeight(600),
         fontSize = 20.sp,
         lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
     ) ,
     labelMedium = TextStyle(
-        fontFamily =FontFamily(Font(R.font.inter_regular)),
+        fontFamily =FontFamily(Font(R.font.inter_semibold)),
         fontWeight = FontWeight(500),
         fontSize = 22.sp,
-        letterSpacing = 0.5.sp
     ),
     labelLarge = TextStyle(
         fontFamily =FontFamily(Font(R.font.inter_regular)),
         fontWeight = FontWeight(500),
         fontSize = 32.sp,
+    ),
+    labelSmall = TextStyle(
+        fontFamily =FontFamily(Font(R.font.inter_semibold)),
+        fontWeight = FontWeight(500),
+        fontSize = 12.sp,
     ),
 
 )

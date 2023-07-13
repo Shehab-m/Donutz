@@ -11,10 +11,10 @@ import com.cheesecake.donutz.R
 import com.cheesecake.donutz.ui.theme.Red_Light
 
 @Composable
-fun BackButton() {
+fun BackButton(onClick:()->Unit,modifier: Modifier = Modifier) {
     IconButton(
-        modifier = Modifier.padding(top = 45.dp, start = 32.dp),
-        onClick = {}
+        modifier = modifier.padding(top = 45.dp, start = 32.dp),
+        onClick = onClick
     ) {
         Icon(
             painter = painterResource(id = R.drawable.back),

@@ -3,9 +3,17 @@ package com.cheesecake.donutz
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.cheesecake.donutz.navigation.NavGraph
+import com.cheesecake.donutz.navigation.NavGraphScreen
 import com.cheesecake.donutz.presentation.screens.donutDetails.DonutDetailsScreen
+import com.cheesecake.donutz.presentation.screens.home.HomeScreen
 import com.cheesecake.donutz.ui.theme.DonutzTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +21,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DonutzTheme {
-                DonutDetailsScreen()
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navController = rememberNavController()
+                    NavGraphScreen(navController = navController)
+                }
             }
         }
     }

@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cheesecake.donutz.R
+import com.cheesecake.donutz.navigation.LocalNavController
+import com.cheesecake.donutz.navigation.navigateToHomeScreen
 import com.cheesecake.donutz.presentation.screens.composable.CreateIndication
 import com.cheesecake.donutz.presentation.screens.composable.CreateMutableInteractionSource
 import com.cheesecake.donutz.ui.theme.Black
@@ -38,14 +40,17 @@ import com.cheesecake.donutz.ui.theme.White
 
 @Composable
 fun OnBoardingScreen() {
+    val navController =  LocalNavController.current
 
-    OnBoardingContent()
+    OnBoardingContent(onClickGetStarted = { navController.navigateToHomeScreen() })
 }
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingContent() {
+fun OnBoardingContent(
+    onClickGetStarted: () -> Unit
+) {
 
     Box(modifier = Modifier.background(Pink)) {
 
@@ -90,14 +95,9 @@ fun OnBoardingContent() {
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(end = 40.dp, start = 40.dp, bottom = 46.dp, top = 60.dp)
-                    .clickable(
-                        interactionSource = CreateMutableInteractionSource(),
-                        indication = CreateIndication(),
-                        onClick = {}
-                    ),
+                    .padding(end = 40.dp, start = 40.dp, bottom = 46.dp, top = 60.dp),
                 colors = ButtonDefaults.buttonColors(White),
-                onClick = {}
+                onClick = onClickGetStarted
             ) {
 
                 Text(

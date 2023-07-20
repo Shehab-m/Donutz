@@ -53,7 +53,7 @@ fun OnBoardingContent(
         Image(
             modifier = Modifier.fillMaxHeight(.6f).fillMaxWidth(1.5f)
                 .basicMarquee(
-                    velocity = 100.dp,
+                    velocity = 75.dp,
                     initialDelayMillis = 0,
                     delayMillis = 0,
                     iterations = Int.MAX_VALUE

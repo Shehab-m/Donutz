@@ -4,11 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,13 +22,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.cheesecake.donutz.R
 import com.cheesecake.donutz.navigation.LocalNavController
 import com.cheesecake.donutz.navigation.navigateToDonutDetailsScreen
-import com.cheesecake.donutz.presentation.screens.composable.CardSmallWithIcon
 import com.cheesecake.donutz.presentation.screens.home.composable.CardDonutDetails
 import com.cheesecake.donutz.presentation.screens.home.composable.DonutsItem
-import com.cheesecake.donutz.ui.theme.Blue
-import com.cheesecake.donutz.ui.theme.Grey
-import com.cheesecake.donutz.ui.theme.Pink
-import com.cheesecake.donutz.ui.theme.Red
+import com.cheesecake.donutz.presentation.screens.home.composable.RowHomeHeader
+import com.cheesecake.donutz.presentation.screens.home.viewModel.HomeInteractionListener
+import com.cheesecake.donutz.presentation.screens.home.viewModel.HomeUIState
+import com.cheesecake.donutz.presentation.screens.home.viewModel.HomeViewModel
 import com.cheesecake.donutz.ui.theme.Typography
 import com.cheesecake.donutz.ui.theme.White
 
@@ -38,44 +36,23 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val navController =  LocalNavController.current
-    HomeContent(state,onClickDonutDetails = { navController.navigateToDonutDetailsScreen() })
+    val navController = LocalNavController.current
+    HomeContent(state,onClickDonutDetails = { navController.navigateToDonutDetailsScreen() },viewModel)
 }
 
 @Composable
 fun HomeContent(
     state: HomeUIState,
-    onClickDonutDetails: ()-> Unit
+    onClickDonutDetails: ()-> Unit,
+    listener: HomeInteractionListener
 ) {
+
     Column(
         Modifier
             .fillMaxSize()
             .background(White)
     ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 60.dp, end = 40.dp, start = 40.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column {
-                Text(
-                    text = stringResource(R.string.let_s_gonuts),
-                    style = Typography.titleMedium,
-                    color = Red
-                )
-                Text(
-                    text = stringResource(R.string.order_your_favourite_donuts_from_here),
-                    style = Typography.bodySmall,
-                    color = Grey
-                )
-            }
-            CardSmallWithIcon(
-                icon = painterResource(id = R.drawable.search_4_svgrepo_com),
-                onClick = {},
-                cardBackGroundColor = Pink,
-            )
-        }
+        RowHomeHeader()
         Text(
             text = stringResource(R.string.today_offers),
             style = Typography.titleSmall,
@@ -85,7 +62,7 @@ fun HomeContent(
             modifier = Modifier.padding(top = 20.dp),
             contentPadding = PaddingValues(start = 40.dp)
         ) {
-            itemsIndexed(state.donuts) { index, item ->
+            itemsIndexed(state.mainDonuts) { index, item ->
                 CardDonutDetails(
                     image = painterResource(id = item.imageId),
                     name = item.name,
@@ -93,7 +70,9 @@ fun HomeContent(
                     oldPrice = item.oldPrice,
                     price = item.price,
                     index = index,
-                    onClick = onClickDonutDetails
+                    onClickDonut = onClickDonutDetails,
+                    isFavourite = item.isFavourite,
+                    onClickFavourite = { listener.onClickFavourite(index) }
                 )
             }
         }
@@ -107,12 +86,12 @@ fun HomeContent(
             contentPadding = PaddingValues(horizontal = 40.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ){
-            items(6){
+            items(state.miniDonuts){
                 DonutsItem(
-                    image = painterResource(id = R.drawable.donut_black),
-                    name = "Chocolate Cherry",
-                    price = 22,
-                    onClick = {}
+                    image = painterResource(id = it.imageId),
+                    name = it.name,
+                    price = it.price,
+                    onClick = onClickDonutDetails
                 )
             }
         }

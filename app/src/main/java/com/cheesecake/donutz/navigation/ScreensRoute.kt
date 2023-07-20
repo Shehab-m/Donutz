@@ -13,7 +13,7 @@ sealed class ScreensRoute(
 
     object Favourite : ScreensRoute(
         route = "favourite",
-        icon = R.drawable.heart
+        icon = R.drawable.heart_bottom_nav
     )
 
     object Notification : ScreensRoute(

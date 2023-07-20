@@ -20,21 +20,18 @@ import com.cheesecake.donutz.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouriteIcon(modifier: Modifier = Modifier) {
+fun CardFavouriteCircle(modifier: Modifier = Modifier, isFavourite: Boolean,onClick:()->Unit) {
     Card(modifier = modifier.padding(top = 15.dp, start = 15.dp).size(35.dp),
         colors = CardDefaults.cardColors(White),
         shape = CircleShape,
-        onClick = {}
+        onClick = onClick
     ) {
         Box(modifier = Modifier.fillMaxSize())
         {
             Icon(
-                modifier = Modifier
-                    .size(width = 20.dp, height = 18.35.dp)
-                    .align(Alignment.Center),
-                painter = painterResource(id = R.drawable.fav),
-                contentDescription = "favourite",
-                tint = Red,
+                modifier = Modifier.size(width = 20.dp, height = 18.35.dp).align(Alignment.Center),
+                painter = painterResource(id = if(isFavourite)R.drawable.heart else R.drawable.heart_outline),
+                contentDescription = "favourite", tint = Red,
             )
         }
     }

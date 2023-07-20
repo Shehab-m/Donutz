@@ -1,6 +1,9 @@
 package com.cheesecake.donutz.presentation.screens.home.composable
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,9 +19,15 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
@@ -27,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.cheesecake.donutz.R
+import com.cheesecake.donutz.presentation.screens.composable.CreateMutableInteractionSource
 import com.cheesecake.donutz.ui.theme.Blue
 import com.cheesecake.donutz.ui.theme.Grey
 import com.cheesecake.donutz.ui.theme.Pink
@@ -48,7 +58,10 @@ fun CardDonutDetails(
     val backgroundColor = if (index % 2 == 0) Blue else Pink
     Box {
         Card(
-            modifier = Modifier.width(180.dp).height(300.dp).clip(RoundedCornerShape(20.dp)),
+            modifier = Modifier
+                .width(180.dp)
+                .height(300.dp)
+                .clip(RoundedCornerShape(20.dp)),
             colors = CardDefaults.cardColors(backgroundColor),
             onClick = (onClickDonut)
         ) {
@@ -64,7 +77,9 @@ fun CardDonutDetails(
                         modifier = Modifier.padding(top = 8.dp)
                     )
                     Row(
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp),
                         horizontalArrangement = Arrangement.End,
                         verticalAlignment = Alignment.Bottom
                     ) {
@@ -78,8 +93,20 @@ fun CardDonutDetails(
                 }
             }
         }
+        var degree by rememberSaveable{
+            mutableStateOf( 0f)
+        }
+        val rotation by animateFloatAsState(targetValue = degree, animationSpec = spring() )
         Image(
-            modifier = Modifier.padding(start = 68.dp, top = 22.dp).scale(1.3f),
+            modifier = Modifier
+                .padding(start = 68.dp, top = 22.dp)
+                .rotate(rotation)
+                .scale(1.3f)
+                .clickable(
+                    interactionSource = CreateMutableInteractionSource(),
+                    indication = null,
+                    onClick = { degree += 90f }
+                ),
             painter = image,
             contentDescription = "donut",
         )

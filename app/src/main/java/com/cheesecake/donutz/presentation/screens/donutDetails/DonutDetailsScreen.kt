@@ -1,7 +1,10 @@
 package com.cheesecake.donutz.presentation.screens.donutDetails
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,9 +20,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,6 +40,7 @@ import com.cheesecake.donutz.R
 import com.cheesecake.donutz.navigation.LocalNavController
 import com.cheesecake.donutz.presentation.screens.composable.BackButton
 import com.cheesecake.donutz.presentation.screens.composable.CardSquared
+import com.cheesecake.donutz.presentation.screens.composable.CreateMutableInteractionSource
 import com.cheesecake.donutz.presentation.screens.donutDetails.composable.RowQuantity
 import com.cheesecake.donutz.presentation.screens.donutDetails.viewModel.DonutDetailsListener
 import com.cheesecake.donutz.presentation.screens.donutDetails.viewModel.DonutDetailsUIState
@@ -54,16 +64,16 @@ fun DonutDetailsContent(
     state: DonutDetailsUIState, onClickBack: () -> Unit, listener: DonutDetailsListener
 ) {
     ConstraintLayout(
-        modifier = Modifier.fillMaxSize().background(Pink)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Pink)
     ) {
         val (bottomSheet, mainImage, cardFavourite) = createRefs()
 
+        ImageDonut(painter = painterResource(id = state.imageId) ,modifier = Modifier
+            .fillMaxWidth()
+            .constrainAs(mainImage) { top.linkTo(parent.top, 28.dp) })
         BackButton(onClickBack)
-        Image(painter = painterResource(id = state.imageId),
-            contentDescription = "donut",
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier.fillMaxWidth()
-                .constrainAs(mainImage) { top.linkTo(parent.top, 28.dp) })
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -100,7 +110,9 @@ fun DonutDetailsContent(
                 Text(
                     text = "£${state.price}",
                     style = Typography.titleMedium,
-                    modifier = Modifier.padding(end = 16.dp).weight(1f)
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .weight(1f)
                 )
                 Button(modifier = Modifier
                     .fillMaxWidth()
@@ -138,6 +150,24 @@ fun DonutDetailsContent(
         }
 
     }
+}
+
+@Composable
+fun ImageDonut(modifier: Modifier = Modifier, painter: Painter) {
+    var degree by rememberSaveable{
+        mutableStateOf( 0f)
+    }
+    val rotation by animateFloatAsState(targetValue = degree, animationSpec = spring() )
+    Image(painter = painter,
+        contentDescription = "donut",
+        contentScale = ContentScale.FillWidth,
+        modifier = modifier.rotate(rotation)
+            .clickable(
+                interactionSource = CreateMutableInteractionSource(),
+                indication = null,
+                onClick = { degree += 90f }
+            )
+       )
 }
 
 

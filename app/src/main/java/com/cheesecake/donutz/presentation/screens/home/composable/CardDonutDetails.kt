@@ -20,9 +20,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -31,40 +30,38 @@ import androidx.compose.ui.unit.dp
 import com.cheesecake.donutz.R
 import com.cheesecake.donutz.ui.theme.Blue
 import com.cheesecake.donutz.ui.theme.Grey
+import com.cheesecake.donutz.ui.theme.Pink
 import com.cheesecake.donutz.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DonutDetailsCard(
+fun CardDonutDetails(
     image: Painter,
     name: String,
     details: String,
     oldPrice:Int,
     price: Int,
-    backGroundColor: Color,
+    index: Int,
     onClick: ()-> Unit
 ) {
+    val backgroundColor = if (index % 2 == 0) Blue else Pink
     Box {
         Card(
-            modifier = Modifier.width(193.dp).height(325.dp).clip(RoundedCornerShape(20.dp)),
-            colors = CardDefaults.cardColors(backGroundColor),
+            modifier = Modifier.width(180.dp).height(300.dp).clip(RoundedCornerShape(20.dp)),
+            colors = CardDefaults.cardColors(backgroundColor),
             onClick = (onClick)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween
             ) {
                 FavouriteIcon()
-
                 Column(modifier = Modifier.padding(start = 20.dp, end = 16.dp)) {
                     Text(text = name, style = Typography.bodyMedium)
-
                     Text(
                         text = details, color = Grey, style = Typography.labelSmall, maxLines = 3,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.padding(top = 8.dp)
                     )
-
                     Row(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                         horizontalArrangement = Arrangement.End,
@@ -78,11 +75,10 @@ fun DonutDetailsCard(
                         Text(text = "$${price}", style = Typography.labelMedium)
                     }
                 }
-
             }
         }
         Image(
-            modifier = Modifier.padding(start = 45.dp, top = 10.dp).size(220.dp),
+            modifier = Modifier.padding(start = 68.dp, top = 22.dp).scale(1.3f),
             painter = image,
             contentDescription = "donut",
         )
@@ -92,13 +88,13 @@ fun DonutDetailsCard(
 @Preview
 @Composable
 fun DonutDetailsCardPreview(){
-    DonutDetailsCard(
+    CardDonutDetails(
         image = painterResource(id = R.drawable.sterowbarry_wheel),
         name = "Strawberry Wheel",
         details = "These Baked Strawberry Donuts are filled with fresh strawberries.........",
         oldPrice = 20,
         price = 16,
-        backGroundColor = Blue,
+        index = 0,
         onClick = {}
     )
 }

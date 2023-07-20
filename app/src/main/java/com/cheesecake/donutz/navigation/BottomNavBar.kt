@@ -55,7 +55,6 @@ fun BottomNavBar(navController: NavHostController) {
             )
         }
     }
-
 }
 
 @Composable
@@ -64,24 +63,10 @@ fun RowScope.AddRoute(
     currentDestination: NavDestination?,
     onClick: () -> Unit
 ) {
-    val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
-    val background by animateColorAsState(targetValue = if (selected) Red else Color.Transparent)
-    val contentColor by animateColorAsState(targetValue = if (selected) White else Red)
-
-    Box(
-        modifier = Modifier
-            .size(50.dp)
-            .clip(CircleShape)
-            .background(background)
-            .clickable(onClick = onClick)
-    ) {
-        Icon(
-            modifier = Modifier
-                .padding(vertical = 10.dp, horizontal = 10.dp)
-                .matchParentSize(),
-            painter = painterResource(id = screen.icon),
-            contentDescription = "icon",
-            tint = contentColor
-        )
-    }
+    Icon(
+        modifier = Modifier.padding(vertical = 10.dp, horizontal = 10.dp),
+        painter = painterResource(id = screen.icon),
+        contentDescription = "icon",
+        tint = Red
+    )
 }

@@ -41,65 +41,49 @@ import com.cheesecake.donutz.ui.theme.White
 @Composable
 fun OnBoardingScreen() {
     val navController =  LocalNavController.current
-
     OnBoardingContent(onClickGetStarted = { navController.navigateToHomeScreen() })
 }
-
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnBoardingContent(
     onClickGetStarted: () -> Unit
 ) {
-
     Box(modifier = Modifier.background(Pink)) {
-
         Image(
-            modifier = Modifier
-                .fillMaxHeight(.6f)
-                .fillMaxWidth(1.5f)
+            modifier = Modifier.fillMaxHeight(.6f).fillMaxWidth(1.5f)
                 .basicMarquee(
-                    iterations = 1,
                     velocity = 100.dp,
-                    initialDelayMillis = 0
+                    initialDelayMillis = 0,
+                    delayMillis = 0,
+                    iterations = Int.MAX_VALUE
                 ),
             painter = painterResource(id = R.drawable.group_donutz),
             contentDescription = "dounts",
             contentScale = ContentScale.FillHeight
         )
-
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
         ) {
-
             Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 40.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp),
                 text = stringResource(R.string.gonuts_with_donuts),
                 color = Red,
                 style = Typography.titleLarge,
             )
-
             Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 40.dp, start = 40.dp, top = 19.dp),
+                modifier = Modifier.fillMaxWidth().padding(end = 40.dp, start = 40.dp, top = 19.dp),
                 text = stringResource(R.string.onboarding_description),
                 color = Red_Light,
                 style = Typography.bodyLarge
             )
-
             Button(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
                     .padding(end = 40.dp, start = 40.dp, bottom = 46.dp, top = 60.dp),
                 colors = ButtonDefaults.buttonColors(White),
                 onClick = onClickGetStarted
             ) {
-
                 Text(
                     modifier = Modifier.padding(vertical = 10.dp),
                     text = stringResource(R.string.get_started),
@@ -107,12 +91,8 @@ fun OnBoardingContent(
                     style = Typography.titleSmall
                 )
             }
-
         }
-
     }
-
-
 }
 
 

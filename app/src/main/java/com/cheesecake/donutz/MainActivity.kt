@@ -10,12 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.cheesecake.donutz.navigation.NavGraph
 import com.cheesecake.donutz.navigation.NavGraphScreen
-import com.cheesecake.donutz.presentation.screens.donutDetails.DonutDetailsScreen
-import com.cheesecake.donutz.presentation.screens.home.HomeScreen
 import com.cheesecake.donutz.ui.theme.DonutzTheme
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

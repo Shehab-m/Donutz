@@ -8,25 +8,18 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.cheesecake.donutz.R
-import com.cheesecake.donutz.ui.theme.Black
 import com.cheesecake.donutz.ui.theme.Red
-import com.cheesecake.donutz.ui.theme.Typography
 import com.cheesecake.donutz.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SmallCardWithIcon(
+fun CardSmallWithIcon(
     icon: Painter,
     iconColor: Color = Red,
     cardBackGroundColor: Color = White,

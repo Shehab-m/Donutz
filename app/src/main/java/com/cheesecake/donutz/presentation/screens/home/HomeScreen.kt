@@ -1,47 +1,31 @@
 package com.cheesecake.donutz.presentation.screens.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.cheesecake.donutz.R
 import com.cheesecake.donutz.navigation.LocalNavController
 import com.cheesecake.donutz.navigation.navigateToDonutDetailsScreen
-import com.cheesecake.donutz.presentation.screens.composable.SmallCardWithIcon
-import com.cheesecake.donutz.presentation.screens.home.composable.DonutDetailsCard
+import com.cheesecake.donutz.presentation.screens.composable.CardSmallWithIcon
+import com.cheesecake.donutz.presentation.screens.home.composable.CardDonutDetails
 import com.cheesecake.donutz.presentation.screens.home.composable.DonutsItem
-import com.cheesecake.donutz.presentation.screens.home.composable.FavouriteIcon
-import com.cheesecake.donutz.ui.theme.Black
 import com.cheesecake.donutz.ui.theme.Blue
 import com.cheesecake.donutz.ui.theme.Grey
 import com.cheesecake.donutz.ui.theme.Pink
@@ -50,15 +34,17 @@ import com.cheesecake.donutz.ui.theme.Typography
 import com.cheesecake.donutz.ui.theme.White
 
 @Composable
-fun HomeScreen() {
-
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+    val state by viewModel.state.collectAsState()
     val navController =  LocalNavController.current
-
-    HomeContent(onClickDonutDetails = { navController.navigateToDonutDetailsScreen() })
+    HomeContent(state,onClickDonutDetails = { navController.navigateToDonutDetailsScreen() })
 }
 
 @Composable
 fun HomeContent(
+    state: HomeUIState,
     onClickDonutDetails: ()-> Unit
 ) {
     Column(
@@ -66,7 +52,6 @@ fun HomeContent(
             .fillMaxSize()
             .background(White)
     ) {
-
         Row(
             Modifier
                 .fillMaxWidth()
@@ -85,43 +70,38 @@ fun HomeContent(
                     color = Grey
                 )
             }
-
-            SmallCardWithIcon(
+            CardSmallWithIcon(
                 icon = painterResource(id = R.drawable.search_4_svgrepo_com),
                 onClick = {},
                 cardBackGroundColor = Pink,
             )
         }
-
         Text(
             text = stringResource(R.string.today_offers),
             style = Typography.titleSmall,
             modifier = Modifier.padding(start = 40.dp, top = 40.dp)
         )
-
         LazyRow(
             modifier = Modifier.padding(top = 20.dp),
             contentPadding = PaddingValues(start = 40.dp)
         ) {
-            items(4) {
-                DonutDetailsCard(
-                    image = painterResource(id = R.drawable.sterowbarry_wheel),
-                    name = "Strawberry Wheel",
-                    details = "These Baked Strawberry Donuts are filled with fresh strawberries.........",
-                    oldPrice = 20,
-                    price = 16,
-                    backGroundColor = Blue,
+            itemsIndexed(state.donuts) { index, item ->
+                CardDonutDetails(
+                    image = painterResource(id = item.imageId),
+                    name = item.name,
+                    details = item.details,
+                    oldPrice = item.oldPrice,
+                    price = item.price,
+                    index = index,
                     onClick = onClickDonutDetails
                 )
             }
         }
-
         Text(
             text = "Donuts",
             style = Typography.titleSmall,
             modifier = Modifier.padding(start = 40.dp, top = 40.dp)
         )
-
         LazyRow(
             modifier = Modifier.padding(top = 20.dp),
             contentPadding = PaddingValues(horizontal = 40.dp),
@@ -138,7 +118,6 @@ fun HomeContent(
         }
     }
 }
-
 
 @Preview
 @Composable

@@ -3,6 +3,7 @@ package com.cheesecake.donutz.presentation.screens.donutDetails
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,7 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.cheesecake.donutz.R
 import com.cheesecake.donutz.navigation.LocalNavController
 import com.cheesecake.donutz.presentation.screens.composable.BackButton
-import com.cheesecake.donutz.presentation.screens.donutDetails.composable.CardFavouriteDonut
+import com.cheesecake.donutz.presentation.screens.composable.CardSquared
 import com.cheesecake.donutz.presentation.screens.donutDetails.composable.RowQuantity
 import com.cheesecake.donutz.presentation.screens.donutDetails.viewModel.DonutDetailsListener
 import com.cheesecake.donutz.presentation.screens.donutDetails.viewModel.DonutDetailsUIState
@@ -52,9 +54,7 @@ fun DonutDetailsContent(
     state: DonutDetailsUIState, onClickBack: () -> Unit, listener: DonutDetailsListener
 ) {
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Pink)
+        modifier = Modifier.fillMaxSize().background(Pink)
     ) {
         val (bottomSheet, mainImage, cardFavourite) = createRefs()
 
@@ -62,8 +62,7 @@ fun DonutDetailsContent(
         Image(painter = painterResource(id = state.imageId),
             contentDescription = "donut",
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
                 .constrainAs(mainImage) { top.linkTo(parent.top, 28.dp) })
         Column(
             modifier = Modifier
@@ -75,8 +74,7 @@ fun DonutDetailsContent(
             Text(
                 modifier = Modifier.padding(start = 40.dp, top = 35.dp),
                 text = state.name,
-                style = Typography.titleMedium,
-                color = Red
+                style = Typography.titleMedium, color = Red
             )
             Text(
                 modifier = Modifier.padding(start = 40.dp, top = 33.dp),
@@ -102,9 +100,7 @@ fun DonutDetailsContent(
                 Text(
                     text = "£${state.price}",
                     style = Typography.titleMedium,
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .weight(1f)
+                    modifier = Modifier.padding(end = 16.dp).weight(1f)
                 )
                 Button(modifier = Modifier
                     .fillMaxWidth()
@@ -120,19 +116,29 @@ fun DonutDetailsContent(
                 }
             }
         }
-        CardFavouriteDonut(
-            listener::onClickFavourite,
-            isFavourite = state.isFavourite,
+
+        CardSquared(
+            onClick = listener::onClickFavourite,
             modifier = Modifier.constrainAs(cardFavourite) {
-                top.linkTo(bottomSheet.top)
-                bottom.linkTo(bottomSheet.top)
-                end.linkTo(parent.end, 33.dp)
-            })
+            top.linkTo(bottomSheet.top)
+            bottom.linkTo(bottomSheet.top)
+            end.linkTo(parent.end, 33.dp)
+        }
+        ) {
+            Box(modifier = Modifier.fillMaxSize()
+                ) {
+                Icon(
+                    modifier = Modifier.align(Alignment.Center),
+                    painter = painterResource(
+                        id = if (state.isFavourite) R.drawable.heart else R.drawable.heart_outline
+                    ),
+                    contentDescription = "favourite", tint = Red
+                )
+            }
+        }
 
     }
 }
-
-
 
 
 @Preview

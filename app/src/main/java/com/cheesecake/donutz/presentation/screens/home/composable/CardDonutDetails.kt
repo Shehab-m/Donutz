@@ -55,7 +55,7 @@ fun CardDonutDetails(
             Column(
                 modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween
             ) {
-                CardFavouriteCircle(isFavourite = isFavourite, onClick = onClickFavourite)
+                CardCircleFavourite(isFavourite = isFavourite, onClick = onClickFavourite)
                 Column(modifier = Modifier.padding(start = 20.dp, end = 16.dp)) {
                     Text(text = name, style = Typography.bodyMedium)
                     Text(

@@ -20,7 +20,7 @@ import com.cheesecake.donutz.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardFavouriteCircle(modifier: Modifier = Modifier, isFavourite: Boolean,onClick:()->Unit) {
+fun CardCircleFavourite(modifier: Modifier = Modifier, isFavourite: Boolean, onClick:()->Unit) {
     Card(modifier = modifier.padding(top = 15.dp, start = 15.dp).size(35.dp),
         colors = CardDefaults.cardColors(White),
         shape = CircleShape,

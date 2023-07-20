@@ -48,9 +48,7 @@ fun HomeContent(
 ) {
 
     Column(
-        Modifier
-            .fillMaxSize()
-            .background(White)
+        Modifier.fillMaxSize().background(White)
     ) {
         RowHomeHeader()
         Text(
